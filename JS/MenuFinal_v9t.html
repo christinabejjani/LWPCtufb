@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<title>A Study on Attention and Learning Menu</title>
+<link rel="stylesheet" href="SCTfull.css" type="text/css" charset="utf=8">
+<script type="text/javascript" src="jquery-3.1.1.js"></script>
+	<script type="application/javascript">
+	  $(function() {
+		$.getJSON("https://api.ipify.org?format=jsonp&callback=?",
+		  function(json) {
+			var IPData = json.ip;
+			console.log(IPData);
+			document.getElementById('IPaddress').value = IPData;
+		  }
+		);
+	  });
+	</script>
+<script type="text/javascript">
+
+	var curStage = 0; //this will represent our "current stage" & we will increment this with time to keep the task in order
+	//this makes javascript open up our urls below (to keep task in order)
+	function basicPopup(url){
+		popupWindow = window.open(url,'popUpWindow','height=' + screen.height + ',width=' + screen.width + ',\
+		left=0,top=0,resizable=yes,scrollbars=yes,toolbar=no,\
+		menubar=no,location=no,directories=no,status=yes');
+	}
+
+	//this function takes out assignment + hit + worker ID from the MTurk header
+	function gup( name, tmpURL ){
+		var regexS = "[\\?&]"+name+"=([^&#]*)";
+		var regex = new RegExp( regexS );
+		var results = regex.exec( tmpURL );
+		if( results == null )
+			return "";
+		else
+			return results[1];
+	}
+
+	//these are outside the document.ready function so that they're loaded before we refer to them
+	function updateMainMenu(expStage){
+		curStage = expStage;
+		switch(expStage){
+			case 0: //informed consent
+				hideHTML();
+				$("#KeepScreenOpen").show();
+				$("#Consent").show();
+				break;
+			case 1: //LWPC task
+				hideHTML();
+				$("#KeepScreenOpen").show();
+				$("#startSC").show();
+				$("#instruction").text("Click the button to start the first part of this study.");
+				$("#instruction").show();
+				break;
+			case 2:	//debriefing
+				hideHTML();
+				$("#mturk_form").show();
+				break;
+		}
+	}
+
+	function informedConsentAction(agreed){
+		if (agreed == true)
+		{updateMainMenu(1);}
+		else{
+			hideHTML();
+			$("#NoGo").html('You either have not accepted the HIT or have not agreed to participate,<br/>\
+			or opened this page without clicking the link from MTurk.<br/>\
+			If you still want to participate, close this page and start again by clicking the link from MTurk.')
+			$("#NoGo").show();
+		}
+	}
+	//insert worker IDs of folks I need to exclude from the study
+	var worker_array = [];
+
+	function checkWorkerId(workerId){
+		workerId = gup('workerId', document.referrer);
+		if (jQuery.inArray(workerId, worker_array)!=-1) // if found will return the index in the array
+		{duplicateWorker=1;}
+		else
+		{duplicateWorker=0;}
+
+		if (workerId == "")
+		{duplicateWorker=0;}
+		
+		return duplicateWorker;
+	}
+
+	function hideHTML() {
+		$("#KeepScreenOpen").hide();
+		$("#ClosePage").hide();
+		$("#startSC").hide();
+		$("#NoGo").hide();
+		$("#Consent").hide();
+		$("#mturk_form").hide();
+		$("#instruction").hide();
+	}
+
+$(document).ready(function(){
+	hideHTML();
+
+    $("#startSC").click(function(){
+   	    basicPopup("INSERT LINK TO SCPhaseFinal_v9t.html");
+    });
+
+	document.getElementById('assignmentId').value = gup('assignmentId', document.referrer);
+	document.getElementById('hitId').value = gup('hitId', document.referrer);
+	document.getElementById('workerId').value = gup('workerId', document.referrer);
+
+	$("#Consent").click(function(){
+	    //this is all the information we need from mTurk workers; so we need them to accept the hit and get their ID, etc. and if they don't have it, we make sure they can't go on in the task
+	  	if (document.getElementById("assignmentId").value == "ASSIGNMENT_ID_NOT_AVAILABLE" || document.getElementById("assignmentId").value == ""){
+	        informedConsentAction(false); // if it can't read the assignment id, THEN shows that indicator saying they haven't accepted the HIT, etc.
+		}
+		else{
+	        $("#Consent").hide();
+		   	basicPopup("INSERT LINK TO INFORMED CONSENT");
+		}
+	});
+
+	$("#ClosePage").click(function(){
+		JavaScript:window.close();
+	});
+
+	//manually excluding workers, so I include it here - if they've already done the task, it won't even let them see the consent form.
+	var duplicateWorker = checkWorkerId(workerId);
+	if (duplicateWorker==1){
+	    hideHTML();
+		$("#NoGo").html('You have performed our task before, <br/>\
+		we cannot take duplicate responses. Please return this HIT. Thanks!')
+		$("#NoGo").show();
+		$("#ClosePage").show();
+	}
+	else{
+		updateMainMenu(0); // need this, otherwise it's a blank screen
+	}
+
+    //from: http://stackoverflow.com/questions/8595909/how-to-completley-disable-any-mouse-click
+    //disable right click
+    $(document).bind('contextmenu', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return false;
+   });
+
+    //Stops backspace presses (8) and spaces (32);
+	//from: http://stackoverflow.com/questions/1495219/how-can-i-prevent-the-backspace-key-from-navigating-back
+  	$(function(){
+	var rx = /INPUT|SELECT|TEXTAREA/i;
+  	$(document).bind("keydown keypress", function(e){
+		if( e.which == 32 ||e.which == 8 )
+		{ // 8 == backspace
+			if(!rx.test(e.target.tagName) || e.target.disabled || e.target.readOnly )
+			{
+  				e.preventDefault();
+			}
+  		}
+  	});
+  	});
+});
+
+</script>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>
+				<p id="instruction" style="font-family: arial; font-size: 40px"></p>
+
+				<form id="mturk_form" method="POST" action="https://www.mturk.com/mturk/externalSubmit">
+					<input type="hidden" id="assignmentId" name="assignmentId" value="">
+					<input type="hidden" id="workerId" name="workerId" value="">
+					<input type="hidden" id="hitId" name="hitId" value="">
+					<input type="hidden" id="RTs", name="RTs", value="">
+					<input type="hidden" id="IPaddress" name="IPaddress" value="">
+					<input type="hidden" id="Multitask" name="Multitask" value="">
+					<input type="hidden" id="Mem" name="Mem" value="">
+					<input type="hidden" id="ExpName" name="ExpName" value="LWPCtufb_Mturk">
+					<p id="debriefing" style="font-family: Arial; color: black; font-size: 12px">
+					In this particular study, aimed at understanding different attentional states and learning, we were looking to see if you associated specific color-words with specific probabilities.<p></p> <p></p>
+					More specifically, did you notice that some color-words were more often associated with an incongruent trial (i.e., the meaning of the color-word did NOT match the color the color-word was printed in) and the others were more often associated with a congruent trial (i.e., the meaning of the color-word matched the color the color-word was printed in)?<p></p> <p></p>
+					If so, you may have responded more quickly to incongruent trials for incongruent trial color-words compared to congruent trial color-words, and you have may have been more accurate doing so. <p></p> <p></p>
+					Furthermore, we predict that performance feedback will strengthen the predictive effect of these color-words.<p></p> <p></p>
+					We predict that these color-words can impact later performance, but at this time we have yet to make any formal conclusions. <p></p> <p></p>
+					If you want to know more, feel free to contact me at any time at chbejj2016@gmail.com. Thanks so much for your participation! <p></p> <p></p> <p></p> <p></p> </p>
+					<input id="submitButton" style="font-family: Arial; color: black; font-size: 36px" type="submit" name="Finish" value="Submit">
+
+				</form>
+
+				<p id="KeepScreenOpen" style="font-family: arial; color: black; font-size: 48px;">Do not close or refresh this window.</p>
+				<p id="NoGo" style="font-family: arial; color: black; font-size: 40px;">You either have not accepted the HIT or have not agreed to participate, or opened this page without clicking the link from MTurk. If you still want to participate, close this page and start again by clicking the link from MTurk.</p>
+				<button id="Consent" style="font-family: arial; color: black; font-size: 24px;">Click to view the informed consent of this HIT.</button>
+				<button id="ClosePage" style="font-family: arial; color: black; font-size: 24px;">Close this page.</button>
+				<button id="startSC" style="font-family: arial; color: black; font-size: 24px;">Click to start the first task.</button>
+            </td>
+		</tr>
+	</table>
+</body>
+</html>
