@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<title>A Study on Attention and Learning</title>
+<link rel="stylesheet" href="SCTfull.css" type="text/css" charset="utf-8">
+<link rel="stylesheet" href="css/tachyons.min.css" type="text/css" />
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+<script type="text/javascript" src="jquery-3.1.1.js"> </script>
+<script type="text/javascript" src="shuffle.js"></script>
+<script type="text/javascript" src="js/record_data.js"></script>
+<script type="text/javascript" src="js/bisbas.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+	//to be able to submit the data from the last trial, we need to get the assignment ID, etc. from the Main Menu file
+	//I also get the IP address from the main menu because I want to make sure that no sub has the same IP address (i.e., cannot definitively prove they're different workers)
+	document.getElementById('assignmentId').value = window.opener.document.getElementById('assignmentId').value;
+	document.getElementById('hitId').value = window.opener.document.getElementById('hitId').value;
+	document.getElementById('workerId').value = window.opener.document.getElementById('workerId').value;
+	document.getElementById('IPaddress').value = window.opener.document.getElementById('IPaddress').value;
+
+	var canvas = document.getElementById("myCanvas"); // myCanvas is to make sure that everything is presented in the middle of the screen
+	var ctx = canvas.getContext("2d"); // need context to draw on canvas
+
+	// loading my images + setting up the color-word pairs
+	var picword = [["red","RED"],["orange","ORANGE"],["#EBEB00","YELLOW"],["green","GREEN"],["blue","BLUE"],["purple","PURPLE"]];
+	var fbimages = shuffle(['N1.jpg', 'N2.jpg', 'N3.jpg', 'N4.jpg', 'N5.jpg', 'N6.jpg', 'N7.jpg', 'N8.jpg', 'N9.jpg', 'N10.jpg', 'N11.jpg', 'N12.jpg', 'N13.jpg', 'N14.jpg', 'N15.jpg', 'N16.jpg', 'N17.jpg', 'N18.jpg', 'N19.jpg', 'N20.jpg', 'N21.jpg', 'N22.jpg', 'N23.jpg', 'N24.jpg', 'N25.jpg', 'N26.jpg', 'N27.jpg', 'N28.jpg', 'N29.jpg', 'N30.jpg', 'N31.jpg', 'N32.jpg', 'N33.jpg', 'N34.jpg', 'N35.jpg', 'N36.jpg', 'N37.jpg', 'N38.jpg', 'N39.jpg', 'N40.jpg', 'N41.jpg', 'N42.jpg', 'N43.jpg', 'N44.jpg', 'N45.jpg', 'N46.jpg', 'N47.jpg', 'N48.jpg', 'N49.jpg', 'N50.jpg', 'N51.jpg', 'N52.jpg', 'N53.jpg', 'N54.jpg', 'N55.jpg', 'N56.jpg', 'N57.jpg', 'N58.jpg', 'N59.jpg', 'N60.jpg', 'N61.jpg', 'N62.jpg', 'N63.jpg', 'N64.jpg', 'N65.jpg', 'N66.jpg', 'N67.jpg', 'N68.jpg', 'N69.jpg', 'N70.jpg', 'N71.jpg', 'N72.jpg', 'N73.jpg', 'N74.jpg', 'N75.jpg', 'N76.jpg', 'N77.jpg', 'N78.jpg', 'N79.jpg', 'N80.jpg', 'N81.jpg', 'N82.jpg', 'N83.jpg', 'N84.jpg', 'N85.jpg', 'N86.jpg', 'N87.jpg', 'N88.jpg', 'N89.jpg', 'N90.jpg', 'N91.jpg', 'N92.jpg', 'N93.jpg', 'N94.jpg', 'N95.jpg', 'N96.jpg', 'N97.jpg', 'N98.jpg', 'N99.jpg', 'N100.jpg','N101.jpg', 'N102.jpg', 'N103.jpg', 'N104.jpg', 'N105.jpg', 'N106.jpg', 'N107.jpg', 'N108.jpg', 'N109.jpg', 'N110.jpg', 'N111.jpg', 'N112.jpg', 'N113.jpg', 'N114.jpg', 'N115.jpg', 'N116.jpg', 'N117.jpg', 'N118.jpg', 'N119.jpg', 'N120.jpg', 'N121.jpg', 'N122.jpg', 'N123.jpg', 'N124.jpg', 'N125.jpg', 'N126.jpg', 'N127.jpg', 'N128.jpg', 'N129.jpg', 'N130.jpg', 'N131.jpg', 'N132.jpg', 'N133.jpg', 'N134.jpg', 'N135.jpg', 'N136.jpg', 'N137.jpg', 'N138.jpg', 'N139.jpg', 'N140.jpg', 'N141.jpg', 'N142.jpg', 'N143.jpg', 'N144.jpg', 'N145.jpg', 'N146.jpg', 'N147.jpg', 'N148.jpg', 'N149.jpg', 'N150.jpg', 'N151.jpg', 'N152.jpg', 'N153.jpg', 'N154.jpg', 'N155.jpg', 'N156.jpg', 'N157.jpg', 'N158.jpg', 'N159.jpg', 'N160.jpg', 'N161.jpg', 'N162.jpg', 'N163.jpg', 'N164.jpg', 'N165.jpg', 'N166.jpg', 'N167.jpg', 'N168.jpg', 'N169.jpg', 'N170.jpg', 'N171.jpg', 'N172.jpg', 'N173.jpg', 'N174.jpg', 'N175.jpg', 'N176.jpg', 'N177.jpg', 'N178.jpg', 'N179.jpg', 'N180.jpg', 'N181.jpg', 'N182.jpg', 'N183.jpg', 'N184.jpg', 'N185.jpg', 'N186.jpg', 'N187.jpg', 'N188.jpg', 'N189.jpg', 'N190.jpg', 'N191.jpg', 'N192.jpg', 'N193.jpg', 'N194.jpg', 'N195.jpg', 'N196.jpg', 'N197.jpg', 'N198.jpg', 'N199.jpg', 'N200.jpg', 'N201.jpg', 'N202.jpg', 'N203.jpg', 'N204.jpg', 'N205.jpg', 'N206.jpg', 'N207.jpg', 'N208.jpg', 'N209.jpg', 'N210.jpg', 'N211.jpg', 'N212.jpg', 'N213.jpg', 'N214.jpg', 'N215.jpg', 'N216.jpg', 'N217.jpg', 'N218.jpg', 'N219.jpg', 'N220.jpg', 'N221.jpg', 'N222.jpg', 'N223.jpg', 'N224.jpg', 'N225.jpg', 'N226.jpg', 'N227.jpg', 'N228.jpg', 'N229.jpg', 'N230.jpg', 'N231.jpg', 'N232.jpg', 'N233.jpg', 'N234.jpg', 'N235.jpg', 'N236.jpg', 'N237.jpg', 'N238.jpg', 'N239.jpg', 'N240.jpg', 'N241.jpg', 'N242.jpg', 'N243.jpg', 'N244.jpg', 'N245.jpg', 'N246.jpg', 'N247.jpg', 'N248.jpg', 'N249.jpg', 'N250.jpg', 'N251.jpg', 'N252.jpg', 'N253.jpg', 'N254.jpg', 'N255.jpg', 'N256.jpg', 'N257.jpg', 'N258.jpg', 'N259.jpg', 'N260.jpg', 'N261.jpg', 'N262.jpg', 'N263.jpg', 'N264.jpg', 'N265.jpg', 'N266.jpg', 'N267.jpg', 'N268.jpg', 'N269.jpg', 'N270.jpg', 'N271.jpg', 'N272.jpg', 'M1.jpg', 'M2.jpg', 'M3.jpg', 'M4.jpg', 'M5.jpg', 'M6.jpg', 'M7.jpg', 'M8.jpg', 'M9.jpg', 'M10.jpg', 'M11.jpg', 'M12.jpg', 'M13.jpg', 'M14.jpg', 'M15.jpg', 'M16.jpg', 'M17.jpg', 'M18.jpg', 'M19.jpg', 'M20.jpg', 'M21.jpg', 'M22.jpg', 'M23.jpg', 'M24.jpg', 'M25.jpg', 'M26.jpg', 'M27.jpg', 'M28.jpg', 'M29.jpg', 'M30.jpg', 'M31.jpg', 'M32.jpg', 'M33.jpg', 'M34.jpg', 'M35.jpg', 'M36.jpg', 'M37.jpg', 'M38.jpg', 'M39.jpg', 'M40.jpg', 'M41.jpg', 'M42.jpg', 'M43.jpg', 'M44.jpg', 'M45.jpg', 'M46.jpg', 'M47.jpg', 'M48.jpg', 'M49.jpg', 'M50.jpg', 'M51.jpg', 'M52.jpg', 'M53.jpg', 'M54.jpg', 'M55.jpg', 'M56.jpg', 'M57.jpg', 'M58.jpg', 'M59.jpg', 'M60.jpg', 'M61.jpg', 'M62.jpg', 'M63.jpg', 'M64.jpg', 'M65.jpg', 'M66.jpg', 'M67.jpg', 'M68.jpg', 'M69.jpg', 'M70.jpg', 'M71.jpg', 'M72.jpg', 'M73.jpg', 'M74.jpg', 'M75.jpg', 'M76.jpg', 'M77.jpg', 'M78.jpg', 'M79.jpg', 'M80.jpg', 'M81.jpg', 'M82.jpg', 'M83.jpg', 'M84.jpg', 'M85.jpg', 'M86.jpg', 'M87.jpg', 'M88.jpg', 'M89.jpg', 'M90.jpg', 'M91.jpg', 'M92.jpg', 'M93.jpg', 'M94.jpg', 'M95.jpg', 'M96.jpg', 'M97.jpg', 'M98.jpg', 'M99.jpg', 'M100.jpg','M101.jpg', 'M102.jpg', 'M103.jpg', 'M104.jpg', 'M105.jpg', 'M106.jpg', 'M107.jpg', 'M108.jpg', 'M109.jpg', 'M110.jpg', 'M111.jpg', 'M112.jpg', 'M113.jpg', 'M114.jpg', 'M115.jpg', 'M116.jpg', 'M117.jpg', 'M118.jpg', 'M119.jpg', 'M120.jpg', 'M121.jpg', 'M122.jpg', 'M123.jpg', 'M124.jpg', 'M125.jpg', 'M126.jpg', 'M127.jpg', 'M128.jpg', 'M129.jpg', 'M130.jpg', 'M131.jpg', 'M132.jpg', 'M133.jpg', 'M134.jpg', 'M135.jpg', 'M136.jpg', 'M137.jpg', 'M138.jpg', 'M139.jpg', 'M140.jpg', 'M141.jpg', 'M142.jpg', 'M143.jpg', 'M144.jpg', 'M145.jpg', 'M146.jpg', 'M147.jpg', 'M148.jpg', 'M149.jpg', 'M150.jpg', 'M151.jpg', 'M152.jpg', 'M153.jpg', 'M154.jpg', 'M155.jpg', 'M156.jpg', 'M157.jpg', 'M158.jpg', 'M159.jpg', 'M160.jpg', 'M161.jpg', 'M162.jpg', 'M163.jpg', 'M164.jpg', 'M165.jpg', 'M166.jpg', 'M167.jpg', 'M168.jpg', 'M169.jpg', 'M170.jpg', 'M171.jpg', 'M172.jpg', 'M173.jpg', 'M174.jpg', 'M175.jpg', 'M176.jpg', 'M177.jpg', 'M178.jpg', 'M179.jpg', 'M180.jpg', 'M181.jpg', 'M182.jpg', 'M183.jpg', 'M184.jpg', 'M185.jpg', 'M186.jpg', 'M187.jpg', 'M188.jpg', 'M189.jpg', 'M190.jpg', 'M191.jpg', 'M192.jpg', 'M193.jpg', 'M194.jpg', 'M195.jpg', 'M196.jpg', 'M197.jpg', 'M198.jpg', 'M199.jpg', 'M200.jpg', 'M201.jpg', 'M202.jpg', 'M203.jpg', 'M204.jpg', 'M205.jpg', 'M206.jpg', 'M207.jpg', 'M208.jpg', 'M209.jpg', 'M210.jpg', 'M211.jpg', 'M212.jpg', 'M213.jpg', 'M214.jpg', 'M215.jpg', 'M216.jpg', 'M217.jpg', 'M218.jpg', 'M219.jpg', 'M220.jpg', 'M221.jpg', 'M222.jpg', 'M223.jpg', 'M224.jpg', 'M225.jpg', 'M226.jpg', 'M227.jpg', 'M228.jpg', 'M229.jpg', 'M230.jpg', 'M231.jpg', 'M232.jpg', 'M233.jpg', 'M234.jpg', 'M235.jpg', 'M236.jpg', 'M237.jpg', 'M238.jpg', 'M239.jpg', 'M240.jpg', 'M241.jpg', 'M242.jpg', 'M243.jpg', 'M244.jpg', 'M245.jpg', 'M246.jpg', 'M247.jpg', 'M248.jpg', 'M249.jpg', 'M250.jpg', 'M251.jpg', 'M252.jpg', 'M253.jpg', 'M254.jpg', 'M255.jpg', 'M256.jpg', 'M257.jpg', 'M258.jpg', 'M259.jpg', 'M260.jpg', 'M261.jpg', 'M262.jpg', 'M263.jpg', 'M264.jpg', 'M265.jpg', 'M266.jpg', 'M267.jpg', 'M268.jpg', 'M269.jpg', 'M270.jpg', 'M271.jpg', 'M272.jpg']);
+	var fbarray = new Array(544);
+	var fullCount = 0;
+		
+	function loadImage(){ // this is my load image function; have to load before I start drawing the image b/c that can take time
+		//let participants know that the task is loading based on the # of images to get through for the file index
+		ctx.clearRect(0, 0, canvas.width, canvas.height); 
+		ctx.fillStyle="black"; 
+		ctx.textBaseline="middle"; 
+		ctx.textAlign="center"; 
+		ctx.font="75px Arial"; 
+		$("#indicator").text("The task is loading. Please wait.");
+		$("#indicator").show();
+		ctx.fillText(Math.round((fullCount/fbimages.length)*100)+"%", (canvas.width/2), (canvas.height/2));
+		
+		if (fullCount < fbimages.length){
+			fbarray[fullCount] = new Image();
+			fbarray[fullCount].onload = loadImage;
+			fbarray[fullCount].src = fbimages[fullCount];
+			fbarray[fullCount].alt = fbimages[fullCount];
+			
+			fullCount++
+		}
+		else{
+			Prep(); //this is a function that will show my Instructions html after the images are fully loaded
+		}
+	}
+	
+	loadImage(); // need to be loaded before everything else happens, so let fxn work in background; first thing basically called in this task
+	
+	/////////////////////////////////////////////////////////////////////////////////////OTHER PEOPLE'S FUNCTIONS/////////////////////////////////////////////////////////////////////
+
+	//from: http://stackoverflow.com/questions/8595909/how-to-completley-disable-any-mouse-click
+    //disable right click
+    $(document).bind('contextmenu', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        return false;
+    });
+
+	//Stops backspace presses (8) and spaces (32);
+	//from: http://stackoverflow.com/questions/1495219/how-can-i-prevent-the-backspace-key-from-navigating-back
+  	$(function(){
+	var rx = /INPUT|SELECT|TEXTAREA/i;
+  	$(document).bind("keydown keypress", function(e){
+		if( e.which == 32 ||e.which == 8 )
+		{ // 8 == backspace
+			if(!rx.test(e.target.tagName) || e.target.disabled || e.target.readOnly )
+			{
+  				e.preventDefault();
+			}
+  		}
+  	});
+  	});
+	
+	//PageFocus version 1.3-1 demo - i.e., a test of participants' multitasking - how often do they click out of the browser?
+	//This PageFocus code is from the article "PageFocus: Using Paradata to Detect and Prevent Cheating on Online Achievement Tests" by Birk Diedenhofen and Jochen Musch. The JavaScript section of the file includes version 1.3 of the PageFocus script.
+	//Copyright 2015-2017 Birk Diedenhofen (mail@birkdiedenhofen.de)
+	//The code has since been modified by Christina Bejjani for this particular task
+
+	var multitaskingdata=[['']]; // needs separate data log unless you want to make a Python script that will deidentify the multitasking data from regular data
+	var focus_data;  // all page defocusing and refocusing events as one string
+	var defocusing_count;  // number of page defocusing events
+	var refocusing_count;  // number of page refocusing events
+	var last_duration;  // duration between the last page defocusing and refocusing events
+	var duration_sum;  // sum of all durations between page defocusing and refocusing events
+	var defocus_timestamp;  // timestamp of last page defocusing event
+	var refocus_timestamp;  // timestamp of last page refocusing event
+	var pagefocus = true;  // does the current page have the focus?
+	var multitaskcounter = 0; // didn't want the same counter as my other data, since there might be a lot of events related to multitasking
+
+	// input elements into HTML; benefit here is that value will dynamically update without needing a button press, like in the other code
+	var events_input = document.getElementById("events_input");
+	var defocus_count_input = document.getElementById("defocus_count_input");
+	var refocus_count_input = document.getElementById("refocus_count_input");
+	var last_duration_input = document.getElementById("last_duration_input");
+	var duration_sum_input = document.getElementById("duration_sum_input");
+
+	reset()
+	record_timestamp = function(type, timestamp) {
+	  focus_data = focus_data + type + timestamp + ";";  // add new page focusing event to the data record
+	  events_input.value = focus_data;
+	  events_input.scrollLeft = events_input.scrollWidth;  // scroll input field to the right
+	}
+	function lost_focus() {  // page defocusing event detected
+		pagefocus = false;
+		defocus_timestamp = new Date().getTime();
+		record_timestamp("D", defocus_timestamp);
+		defocusing_count++;  // count the number of defocusing events
+		defocus_count_input.value = defocusing_count;
+	}
+	function regained_focus() {  // page refocusing event detected
+	  if(!pagefocus) {
+		pagefocus = true;
+		refocus_timestamp = new Date().getTime();
+		record_timestamp("R", refocus_timestamp);
+		refocusing_count++;  // count the number of refocusing events
+		refocus_count_input.value = refocusing_count;
+		last_duration = refocus_timestamp - defocus_timestamp; // calculate the duration between the last page defocusing and refocusing events
+		duration_sum += last_duration; // sum durations between page defocusing and refocusing events
+		last_duration_input.value = last_duration/1000;
+		duration_sum_input.value = duration_sum/1000;
+		//added in the data counter here so that each time it senses a "refocusing" event (suggesting AFTER defocusing has happened), it will log data, and it will tell us what trial it's happening & what run (so we know if it's during a break or literally when doing the task)
+		multitaskingdata[multitaskcounter++] = ['MultitaskR:', trialCounter, runCounter, $("#defocus_count_input").val(), $("#refocus_count_input").val(), $("#last_duration_input").val(), $("#duration_sum_input").val(), 'FillerText'];
+	  }
+	}
+	function onfocusout() {  // workaround for Internet Explorer < version 11
+	  clearTimeout(timer);
+	  timer = setTimeout(lost_focus,100);
+	}
+	function onfocusin() {  // workaround for Internet Explorer < version 11
+	  clearTimeout(timer);
+	  regained_focus();
+	}
+	function reset() {  // reset captured data
+	  events_input.value = focus_data = '';
+	  defocus_count_input.value = defocusing_count = 0;
+	  refocus_count_input.value = refocusing_count = 0;
+	  last_duration_input.value = last_duration = 0;
+	  duration_sum_input.value = duration_sum = 0;
+	}
+
+	if("onfocusin" in document) {  // check for Internet Explorer version < 11
+	  var timer;
+	  document.onfocusin = onfocusin;
+	  document.onfocusout = onfocusout;
+	} else if("onpageshow" in window) {
+	  // use onpageshow and onpagehide for mobile Safari
+	  window.onfocus = window.onpageshow = regained_focus;
+	  window.onblur = window.onpagehide = lost_focus;
+	}
+	
+	/////////////////////////////////////////////////////////////STIMULUS MATRIX GENERATION///////////////////////////////////////////////
+	
+	var versionNumber = 10;
+	
+	var Stimuli1 = [];
+	var Stimuli2 = [];
+	var Stimuli5 = [];
+	var Stimuli6 = [];
+	var Stimuli9 = [];
+	var Stimuli10 = [];
+	var Stimuli11 = [];
+	var Stimuli12 = [];
+	var StroopNum = [];
+	var MCblock1 = [];
+	var MCblock2 = [];
+	var MICblock1 = [];
+	var MICblock2 = [];
+	var PracticeBlock = [];
+	var PracticeStim = [];
+	
+	// 108 total trials per run; 4 runs; 2 PC-90, 2 PC-10, 2 PC-50 items; overall PC 75:25
+	// 20:20 for PC:50 per run; 61:7 for the PC-90/10 items per run
+
+	for (i=0; i < 30; i++){ //the most frequent trial types
+		Stimuli1=Stimuli1.concat(1); //1 PC-90 congruent
+		Stimuli2=Stimuli2.concat(2); //2 PC-90 congruent
+		Stimuli9=Stimuli9.concat(9); //9 PC-10 incongruent #1 matched with PC-10 #2 word
+		Stimuli10=Stimuli10.concat(10); //10 PC-10 incongruent #2 matched with PC-10 #1 word
+	}
+
+	for (i=0; i < 10; i++){ // even trial types
+		Stimuli5=Stimuli5.concat(5); //5 PC-50 congruent
+		Stimuli6=Stimuli6.concat(6); //6 PC-50 congruent
+		Stimuli11=Stimuli11.concat(11); //11 PC-50 incongruent #1 matched with PC-50 #2 word
+		Stimuli12=Stimuli12.concat(12); //12 PC-50 incongruent #2 matched with PC-50 #1 word
+	}
+	
+	for (i=0; i < 20; i++) // practice block; 20 trials of each key response (i.e., congruent)
+	{PracticeStim=PracticeStim.concat(1,2,3,4,5,6);}
+
+	PracticeBlock = PracticeBlock.concat(PracticeStim);
+	shuffle(PracticeBlock);
+	MCblock1 = MCblock1.concat(Stimuli1,Stimuli2,7,7,7,8,8,8,Stimuli5,Stimuli6,Stimuli11,Stimuli12,1,7); //cannot include 3/4/9/10
+	shuffle(MCblock1);
+    MCblock2 = MCblock2.concat(Stimuli12,Stimuli11,Stimuli6,Stimuli5,8,8,8,7,7,7,Stimuli2,Stimuli1,2,8); //cannot include 3/4/9/10
+	shuffle(MCblock2);
+    MICblock1 = MICblock1.concat(Stimuli9,Stimuli10,3,3,3,4,4,4,Stimuli5,Stimuli6,Stimuli11,Stimuli12,9,3); //cannot include 1/2/7/8
+	shuffle(MICblock1);
+    MICblock2 = MICblock2.concat(Stimuli12,Stimuli11,Stimuli6,Stimuli5,4,4,4,3,3,3,Stimuli10,Stimuli9,10,4); //cannot include 1/2/7/8
+	shuffle(MICblock2);
+
+	for (i=1; i < 108; i++){ // for each block (excl practice), if there's a repeat (after shuffling), i push the number to the end and delete it where it used to be. this should limit the # of repetitions.
+		if (MICblock1[i] == MICblock1[i-1]){
+			MICblock1.push(MICblock1[i]);
+			MICblock1.splice(i, 1);
+		}
+		if (MICblock2[i] == MICblock2[i-1]){
+			MICblock2.push(MICblock2[i]);
+			MICblock2.splice(i, 1);
+		}
+		if (MCblock2[i] == MCblock2[i-1]){
+			MCblock2.push(MCblock2[i]);
+			MCblock2.splice(i, 1);
+		}
+		if (MCblock1[i] == MCblock1[i-1]){
+			MCblock1.push(MCblock1[i]);
+			MCblock1.splice(i, 1);
+		}
+	}
+	
+	//here's where the block order matters by version:
+	if (versionNumber == 3 || versionNumber == 9) //version 3/9: MIC-MIC-MC-MC
+	{StroopNum = StroopNum.concat(PracticeBlock,MICblock1,MICblock2,MCblock1,MCblock2);}
+	else if (versionNumber == 4 || versionNumber == 10) //version 4/10: MC-MC-MIC-MIC
+	{StroopNum = StroopNum.concat(PracticeBlock,MCblock1,MCblock2,MICblock1,MICblock2);}
+    
+    // and matrix generation for the memory phase; 270 total trials per block, 216 old images, 1/5 new (54); two blocks of this
+	var Mem1 = [];
+	var Mem2 = [];
+	var Memblock1 = [];
+	var Memblock2 = [];
+	var Memorymatrix = [];
+	
+	for (i=0; i < 216; i++) //old images for memory matrix
+	{Mem2=Mem2.concat(2)}
+	
+	for (i=0; i < 54; i++) //new images for memory matrix
+	{Mem1=Mem1.concat(1)}
+	
+	Memblock1 = Memblock1.concat(Mem1, Mem2);
+	shuffle(Memblock1);
+	Memblock2 = Memblock2.concat(Mem2, Mem1);
+	shuffle(Memblock2);
+	Memorymatrix = Memorymatrix.concat(Memblock1, Memblock2);
+
+    //////////////////////////////////////////////////////////////FILLER TASK + DEMOGRAPHICS TASK //////////////////////////////////////////////////////////////
+	
+	var demodata = [[""]];
+	var postdata = [[""]];
+	
+	//from: https://stackoverflow.com/questions/19846078/how-to-read-from-chromes-console-in-javascript
+	//this is because the bisbasdata is defined locally within the record_data.js, which makes it hard to bind the HTML element, so I console.log the data and then assign the HTML element that console value in this script 
+	console.stdlog = console.log.bind(console);
+	console.logs = [];
+	console.log = function(){
+		console.logs.push(Array.from(arguments));
+		console.stdlog.apply(console, arguments);
+	}
+	
+	$("#startPostTest").click(function(){
+		$("#startPostTest").hide(); // hide the button & reminder that their screen should be maxed out
+		$("#screensize").hide();
+		$("#demographics").show();
+	});
+	
+	//when they submit demographics form, make sure they have selected a value for every item; otherwise they can't pass onto the next screen
+	$("#demoSubmit").click(function(){
+		if (document.getElementById("gender").options[document.getElementById("gender").selectedIndex].value == "" || document.getElementById("age").value == "" || document.getElementById("ethnicity").options[document.getElementById("ethnicity").selectedIndex].value == "" || document.getElementById("race").options[document.getElementById("race").selectedIndex].value == "")
+		{alert('Please make sure to fill out the demographic questionnaire!');}
+		else{
+			demodata[0] = "Demographics:;"; //primarily because this is the format of my csv file creator
+			demodata[1] = document.getElementById("gender").options[document.getElementById("gender").selectedIndex].value;
+			demodata[2] = document.getElementById("age").value;
+			demodata[3] = document.getElementById("ethnicity").options[document.getElementById("ethnicity").selectedIndex].value;
+			demodata[4] = document.getElementById("race").options[document.getElementById("race").selectedIndex].value;
+		
+			//$("#demos", opener.window.document).val(demodata.join(","));
+			$("#demos").val(demodata.join(","));
+		
+			$("#demographics").hide(); //after submitting demographic data, show post-test
+			$("#post-test").show();
+		}
+	});
+	//next up is the systematic variation question - make sure they've selected yes or no else they can't continue
+	$("#Next_sys").click(function(){
+		if (document.getElementById("ItemVaryQ").options[document.getElementById("ItemVaryQ").selectedIndex].value == "" || document.getElementById("BlockVaryQ").options[document.getElementById("BlockVaryQ").selectedIndex].value == "")
+		{alert('Please make sure to fill out the questions!');}
+		else{
+			$("#post-test").hide();
+			$("#freq").show();
+		}
+	});
+	//make sure they've moved the sliders at least once else they can't continue
+	$("#Next_freq").click(function(){
+		if (slide1checkresp == false || slide2checkresp == false || slide3checkresp == false || slide4checkresp == false || slide5checkresp == false)
+		{alert('Please make sure to move ALL of the sliders at least once!');}
+		else{
+			$("#freq").hide();
+			$("#SCForcedChoice").show();
+		}
+	});
+	
+	//Finally, I show them a likert style form with fixed choices before I also make sure they've checked the data else they can't continue
+	$("#Next_scfc").click(function(){	
+		if (document.getElementById("SCForcedChoice_orange").options[document.getElementById("SCForcedChoice_orange").selectedIndex].value == "" || document.getElementById("SCForcedChoice_red").options[document.getElementById("SCForcedChoice_red").selectedIndex].value == "" || document.getElementById("SCForcedChoice_yellow").options[document.getElementById("SCForcedChoice_yellow").selectedIndex].value == "" || document.getElementById("SCForcedChoice_green").options[document.getElementById("SCForcedChoice_green").selectedIndex].value == "" || document.getElementById("SCForcedChoice_blue").options[document.getElementById("SCForcedChoice_blue").selectedIndex].value == "" || document.getElementById("SCForcedChoice_purple").options[document.getElementById("SCForcedChoice_purple").selectedIndex].value == "")
+		{alert('Please make sure to fill out the questions!');}
+		else{
+			$("#SCForcedChoice").hide();
+			postdata[0] = "Post-Test:;"; //primarily because this is the format of my csv file creator
+			postdata[1] = document.getElementById("BlockVaryQ").options[document.getElementById("BlockVaryQ").selectedIndex].value;
+			postdata[2] = document.getElementById("ItemVaryQ").options[document.getElementById("ItemVaryQ").selectedIndex].value;
+			postdata[3] = slider1.value;
+			postdata[4] = slider2.value;
+			postdata[5] = slider3.value;
+			postdata[6] = slider4.value;
+			postdata[7] = slider5.value;
+			postdata[8] = document.getElementById("SCForcedChoice_red").options[document.getElementById("SCForcedChoice_red").selectedIndex].value;
+			postdata[9] = document.getElementById("SCForcedChoice_orange").options[document.getElementById("SCForcedChoice_orange").selectedIndex].value;
+			postdata[10] = document.getElementById("SCForcedChoice_yellow").options[document.getElementById("SCForcedChoice_yellow").selectedIndex].value;
+			postdata[11] = document.getElementById("SCForcedChoice_green").options[document.getElementById("SCForcedChoice_green").selectedIndex].value;
+			postdata[12] = document.getElementById("SCForcedChoice_blue").options[document.getElementById("SCForcedChoice_blue").selectedIndex].value;
+			postdata[13] = document.getElementById("SCForcedChoice_purple").options[document.getElementById("SCForcedChoice_purple").selectedIndex].value;
+		
+			//$("#posttest", opener.window.document).val(postdata.join(","));
+			$("#posttest").val(postdata.join(","));
+			
+			Memory = 1; // make sure to change this value so it shows the right set of instructions (memory, not learning phase) when people finish with the bis-bas
+			slideNum = 0; // make sure to reset this value so that it starts from the beginning of the bullet points again for the instructions
+			MatrixCounter = -1; //reset this so that it will be appropriate in the memory phase trials again
+			ImageCounter = -1; // reset this so that it'll cycle through the same matrix for the old images again
+		
+			bisbas.init(); // initiate the bis-bas likert form that Nick Brosowsky coded & I edited
+		}
+	})
+	//in an ideal world, i would've tried harder to make code that cycles through all these instead of making them all different
+	var slider1 = document.getElementById("FrequencyPredict_1");
+	var slide1checkresp = false;
+	var slider2 = document.getElementById("FrequencyPredict_2");
+	var slide2checkresp = false;
+	var slider3 = document.getElementById("FrequencyPredict_3");
+	var slide3checkresp = false;
+	var slider4 = document.getElementById("FrequencyPredict_4");
+	var slide4checkresp = false;
+	var slider5 = document.getElementById("FrequencyPredict_5");
+	var slide5checkresp = false;
+	var output1 = document.getElementById("demo1");
+	var output2 = document.getElementById("demo2");
+	var output3 = document.getElementById("demo3");
+	var output4 = document.getElementById("demo4");
+	var output5 = document.getElementById("demo5");
+	
+	output1.innerHTML = slider1.value; // Display the default slider value
+	output2.innerHTML = slider2.value;
+	output3.innerHTML = slider3.value;
+	output4.innerHTML = slider4.value;
+	output5.innerHTML = slider5.value;
+	
+	// Update the current slider value (each time you drag the slider handle)
+	slider1.oninput = function() {
+		output1.innerHTML = this.value;
+		slide1checkresp = true;
+	}
+	slider2.oninput = function() {
+		output2.innerHTML = this.value;
+		slide2checkresp = true;
+	}
+	slider3.oninput = function() {
+		output3.innerHTML = this.value;
+		slide3checkresp = true;
+	}
+	slider4.oninput = function() {
+		output4.innerHTML = this.value;
+		slide4checkresp = true;
+	}
+	slider5.oninput = function() {
+		output5.innerHTML = this.value;
+		slide5checkresp = true;
+	}
+
+	//////////////////////////////////////////////////////////////TASK INSTRUCTIONS //////////////////////////////////////////////////////////////
+
+    function hideSCInstruct(){
+		$("#startSCtask").hide();
+		$("#SCStartInstruct").hide();
+		$("#ReadInstructions").hide();
+		$("#InstructionsHeader").hide();
+		$("#startMem").hide();
+		$("#NextButton").hide();
+		$("#Instructions").hide();
+		$("#Instructions1").hide();
+	    $("#Instructions2").hide();
+		$("#Instructions3").hide();
+		$("#Instructions4").hide();
+		$("#Instructions5").hide();
+		$("#Instructions6").hide();
+	}
+	
+	hideSCInstruct(); //hide all the html elements until i specifically call for them
+		
+	function Prep(){
+		ctx.clearRect(0, 0, canvas.width, canvas.height); // gets rid of the countdown from image loading
+		$("#indicator").hide();
+		$("#ReadInstructions").show();
+		$("#InstructionsHeader").show();
+		$("#SCStartInstruct").show();
+		if (Memory == 0)
+		{shuffle(picword);} //randomize the color-word to PC assignment (e.g., purple as PC-50 / 90 / 10)
+	}
+	
+	var slideNum=0;
+	var maxNum=6;
+	//defining buttons - so this one appears at the end of the instructions
+	$("#startSCtask").on('click', function(){
+    	hideSCInstruct();
+		$("#startButton").show();
+		$("#info").show();
+		//reminder for participants about the button mappings
+		ctx.font="75px Arial";
+		ctx.fillStyle = picword[0][0];
+		ctx.fillText('z', (canvas.width/2) - 240, 100);
+		ctx.fillStyle = picword[2][0];
+		ctx.fillText('x', (canvas.width/2) - 165, 100);
+		ctx.fillStyle = picword[4][0];
+		ctx.fillText('c', (canvas.width/2) - 85, 100);
+		ctx.fillStyle = picword[1][0];
+		ctx.fillText('b', (canvas.width/2) + 85, 100);
+		ctx.fillStyle = picword[3][0];
+		ctx.fillText('n', (canvas.width/2) + 165, 100);
+		ctx.fillStyle = picword[5][0];
+		ctx.fillText('m', (canvas.width/2) + 240, 100);
+	});
+	//this is for the memory task - at the end of the instructions, will show this button
+	$("#startMem").on('click', function(){
+    	hideSCInstruct();
+		$("#startButton").show();
+		$("#info").text('Once you are ready to start, press the button below.');
+		$("#info").show();
+	});
+	//this helps to make each instruction like a bullet point, advancing through each statement/sentence one at a time
+	$("#NextButton").on('click', function(){
+	    slideNum=slideNum+1;
+		moveShow(slideNum);
+	});
+	//this is just the first button & then shows the 'next' button right after that
+	$("#SCStartInstruct").on('click', function(){
+		$("#SCStartInstruct").hide()
+		if (Memory == 1){ // this header will be shown again before the memory phase & says if it's the memory phase, don't forget to include the bisbas filler data
+			var bisbasdata = [[""]];
+			bisbasdata[0] = 'LWPCtufb:;';
+			bisbasdata[1] = console.logs[0]; // one negative here is that if something else does get logged to the console, not sure if this will accurately grab the data?
+			$("#bisbas").val(bisbasdata.join(","));
+			$("#bisbas", opener.window.document).val(bisbasdata.join(","));
+		}
+		$("#NextButton").show()
+	    moveShow(slideNum);
+	});
+
+	function moveShow(slideNum){
+		if (slideNum==0) {
+			if (Memory==0) // for learning phase
+			{$("#Instructions").text('In this experiment, you will be presented with a series of color-words.');}
+			else // for memory phase
+			{$("#Instructions").text('In this next part of the experiment, you will be presented with images that you were previously shown as your performance feedback ("Old images") and images that you were not previously shown ("New images").');}
+			$("#Instructions").show()
+		}
+		else if (slideNum==1){
+			if (Memory == 0)
+			{$("#Instructions1").text('On each trial, please respond to the color the color-word is printed in, while ignoring the meaning of the word.');}
+			else
+			{$("#Instructions1").text('On each trial, you will have 2 seconds per image to identify whether you saw the image previously (Old) or did not see the image (New).');}
+			$("#Instructions1").show();
+		}
+		else if (slideNum==2){
+			if (Memory == 0)
+			{$("#Instructions2").html('Press z/Z if the color-word is printed in <text style="color:' + picword[0][0] + '">' + picword[0][1] + '<text style="color:black">, x/X if the color-word is printed in <text style="color:' + picword[2][0] + '">' + picword[2][1] + '<text style="color:black">, c/C if the color-word is printed in <text style="color:' + picword[4][0] + '">' + picword[4][1] + '<text style="color:black">, b/B if the color-word is printed in <text style="color:' + picword[1][0] + '">' + picword[1][1] + '<text style="color:black">, n/N if the color-word is printed in <text style="color:' + picword[3][0] + '">' + picword[3][1] + '<text style="color:black">, and m/M if the color-word is printed in <text style="color:' + picword[5][0] + '">' + picword[5][1] +'<text style="color:black">.');}
+			else
+			{$("#Instructions2").html('You will use the a/A and l/L keys to indicate Old and New, respectively. The response mappings will stay on screen for these ratings.');}
+			$("#Instructions2").show();
+		}
+		else if (slideNum==3){
+			if (Memory == 0)
+			{$("#Instructions3").text('Please enlarge this window to encompass the entire computer screen and sit at a comfortable distance from the screen.');}
+			else
+			{$("#Instructions3").text('Please enlarge this window to encompass the entire computer screen and sit at a comfortable distance from the screen.');}
+			$("#Instructions3").show();
+		}
+		else if (slideNum==4){
+			if (Memory == 0)
+			{$("#Instructions4").text('Respond to each color-word as quickly as possible while still being accurate. You will have until the color-word disappears to make your response. Always press the z/Z key with your LEFT ring finger, the x/X key with your LEFT middle finger, the c/C key with your LEFT index finger, the b/B key with your RIGHT index finger, the n/N key with your RIGHT middle finger, and the m/M key with your RIGHT ring finger.');}
+			else
+			{$("#Instructions4").text('Always press the a/A key with your LEFT index finger and the l/L key with your RIGHT index finger.');}
+			$("#Instructions4").show();
+		}
+		else if (slideNum==5){
+			if (Memory == 0)
+			{$("#Instructions5").text('Please stay focused during the experiment and try to get an accuracy above 80%. You will first go through a practice run to get acclimated to the button responses. For this practice run, the color that the color-word is printed in will always match the meaning of the color-word.');}
+			else
+			{$("#Instructions5").text('Please stay focused during the experiment and try to respond within the time limits.');}			
+			$("#Instructions5").show();
+		}
+		else if (slideNum==6){
+			if (Memory == 0)
+			{$("#Instructions6").text('This task has 4 blocks, which will take 3.6 minutes each, and the practice block will take 4 minutes. Press the button to begin the practice task.');}
+			else
+			{$("#Instructions6").text('This task has 2 blocks, which will take 9 minutes each. Once you are ready to start, press the button below.');}
+			$("#Instructions6").show();
+		}
+
+		if (slideNum==0)
+		{$("#NextButton").show();}
+		else if (slideNum < maxNum)
+		{$("#NextButton").show();}
+		else{
+		   $("#NextButton").hide();
+		   
+		   if (Memory == 0)
+		   {$("#startSCtask").show();}
+		   else
+		   {$("#startMem").show();}
+		}
+	}
+
+	//////////////////////////////////////////////////////////////TASK CODE //////////////////////////////////////////////////////////////
+	//hide all those extra html elements I have included here
+	function hideSC(){
+		$("#indicator").hide();
+		$("#endBlockButton").hide();
+		$("#resize").hide();
+		$("#mturk_form").hide();
+		$("#startButton").hide();
+		$("#info").hide();
+		$("#startPostTest").hide();
+		$("#screensize").hide();
+	}
+
+	hideSC();
+	//defining all my variables
+	var Memory = 0; // to indicate whether they're doing the memory or learning phase
+	var runNumber = 8; // first run is practice, next four are main task, next one is the filler phase, next 2 are memory phase
+	var runCounter = -1; // whether you start with -1 or 0 depends mostly on where the counter is added & when the dependency is called
+	var trialCounter = 0;
+	var keyPressed = 0; // basically setting most of my variables to be at a default of 0
+	var accuracy = 0;
+	var respTime = [];
+	var accsum = []; 
+	var PressCorrect = []; // i have two of these to account for lower & uppercase
+	var PressCorrect2 = [];
+    var ACCCount = 0;
+	var MatrixCounter = -1;
+	var ImageCounter = -1; // for calling the trial-unique fb images
+	var NewImageCounter = 431; // for calling the new images shown in the memory phase
+	var Mem = 0; // for me to indicate on trial-by-trial fashion whether trial was new or old
+	var Hit = 0; // resetting all my memory variables
+	var FA = 0;
+	var Miss = 0;
+	var CR = 0;
+    var feedbackType = 0; // helps determine the type of feedback to give participants
+	var Congruent = 0; // using to mark trial type, so i won't have to in analysis code
+    var MIC = 0; // mostly incongruent; using to mark context/block type
+	var ItemType = 0; // marking PC-90/10 and PC-50
+	var colorpresent = []; // just allowing me to see which colors are presented with each word for each participant
+	var wordpresented = 'none';
+	var respDeadline = 1000; // one second to respond to the color-words & make confidence rating judgment
+	var memrespDeadline = 2000; // two seconds to indicate whether Old or New
+	var trialNumber = 109;
+	
+	var data=[['']]; //data logfile
+	var Mem_data =[['']]; //memory data logfile
+	var runStart; //when a run starts
+	var logCounter = 0; //the counter for each data entry
+	var Responset; // response onset
+	var StimTime; // when the stimulus is presented
+	var FBonset; // when fb starts
+	var MemTime; // when Old or New image appears on screen
+	var MemRT;
+	var ScreenPulled; // when the DOM loads
+	ScreenPulled = new Date().getTime();
+	window.hasResponse = -1;
+	window.hasResponseMem = -1;
+		
+	ctx.textAlign="center";
+	ctx.textBaseline="middle";
+
+    //establish what each button will do - technically may not need endBlockButton & could use startButton repeatedly
+	$("#startButton").click(function(){
+		hideSC();
+		ctx.clearRect(0,0,canvas.width, canvas.height);
+		runBlock(); // starts the task
+	});
+
+	$("#endBlockButton").click(function(){ // when a block is finished, this button would run another block
+		hideSC();
+		runBlock();
+	});
+
+	$("#resize").click(function(){ // to make sure that people are paying attention and don't have more than one task going, this fxn won't let a run start without a large enough window size
+		hideSC();
+		checkSize();
+	});
+
+	function runBlock(){ // main task is separated into various blocks
+		runCounter++;
+		if (runCounter < runNumber){
+			trialCounter = 0; // resets the trial counter in case there are multiple blocks
+			ctx.clearRect(0,0,canvas.width, canvas.height); // this is essentially like clearing the screen in matlab
+			ACCCount = 0; // reset acc count before next block
+			
+			if (runCounter == 0)
+			{trialNumber = 121;} // 120 practice trials
+			else if (runCounter == 1 || runCounter == 2 || runCounter == 3 || runCounter == 4)
+			{trialNumber = 109;} // b/c trialCounter starts at 0 and is added in the ITI, before trialCount < trialNum, I make this +1 greater than the # of trials will be
+			else if (runCounter == 6 || runCounter == 7)
+			{trialNumber = 271;} // two blocks of 270 trials each for the Memory phase
+			
+			if (versionNumber == 3 || versionNumber == 9){ //version 3/9: MIC-MIC-MC-MC
+				if (runCounter == 1 || runCounter == 2)
+				{MIC = 1;}
+				else
+				{MIC = 0;}
+			}
+			else if (versionNumber == 4 || versionNumber == 10){ //version 4/10: MC-MC-MIC-MIC
+				if (runCounter == 3 || runCounter == 4)
+				{MIC = 1;}
+				else
+				{MIC = 0;}
+			}
+			
+			if (runCounter == 5){ // bind together the Learning phase data + show the button to start the filler phase
+				$("#RTs").val(data.join(";"));
+				$("#RTs", opener.window.document).val(data.join(";"));
+				$("#startPostTest").show();
+				$("#screensize").show();
+			}
+			else{
+				checkSize();
+			}
+		}
+		else{ // when all the blocks have been completed, send the data to the main menu page (i.e., back-up in case something goes wrong) and upload the data
+			document.getElementById("mturk_form").submit();
+			opener.updateMainMenu(2);
+		}
+	}
+	
+	// adapted from: http://stackoverflow.com/questions/3437786/get-the-size-of-the-screen-current-web-page-and-browser-window
+	function checkSize(){
+		var w = window.innerWidth;
+		var h = window.innerHeight;
+		if (w < canvas.width || h < canvas.height){
+			$("#indicator").text('Your browser window is too small to display the images properly. Please increase the window size or your screen resolution.');
+  			$("#indicator").show();
+			$("#resize").show();
+		}
+		else{ // if their screen is the proper size...
+			countDown(3); // start the countdown for the experiment
+		}
+	}
+
+    function countDown(time){ // the countdown is meant to "prepare" the subjects that the experiment is beginning
+		if (time > 0){
+			ctx.fillStyle="black";
+			ctx.font="100px Arial";
+			ctx.clearRect(0,0, canvas.width, canvas.height);
+			ctx.fillText("" + time, canvas.width / 2, canvas.height / 2);
+			setTimeout(function(){countDown(time - 1)},1000);
+		}
+		else{
+			runStart = new Date().getTime() - ScreenPulled;
+			showITI(); // once the countdown is finished, it goes to the ITI; this way, subs are less likely to mess up the first trial
+		}
+	}
+
+    function showITI(){
+        ctx.clearRect(0,0,canvas.width, canvas.height); // no matter what, clear the screen
+		trialCounter++;
+
+        if (trialCounter < trialNumber){
+      		keyPressed = 0;
+			feedbackType = 3; //resetting the defaults
+			
+			if (runCounter == 0) //practice is 500 ms ITI - 1 sec stim - 500 ms FB
+			{setTimeout(drawStroop,500);}
+			else if (runCounter == 1 || runCounter == 2 || runCounter == 3 || runCounter == 4) // different timing for main task, which is 1 sec stim, 1 sec fb
+			{setTimeout(drawStroop);}
+			else if (runCounter == 6 || runCounter == 7) // memory is 2 sec stim
+			{setTimeout(drawMemory);}
+        }
+        else{ // if you've exceed the trials in the block, then you're done with the block!
+			var accsum = Math.round((ACCCount/(trialNumber-1)) * 100); // calculates accuracy percentage (#correct trials/total)*100 for each (learning phase) block
+			$("#info").hide(); // need this here for the memory phase; info is what has the response mappings, so I hide it after someone is done with a block
+			if (runCounter == 0){ //after practice, remind subs of the mappings + any deviance of main task from the practice
+				$("#indicator").html('<text style="font-size: 30px">Your accuracy on the practice block was ' + accsum + ' percent. You may take a break, but please take no longer than 4 minutes. <br /><br />'
+				+ 'Note that on the rest of the blocks, the color in which the color-word is printed may not match the meaning of the color-word. <br /> <br />'
+				+ 'As a reminder, here are the response mappings: <text style="color:' + picword[0][0] + '">' + "z/Z " + '<text style="color:' + picword[2][0] + '">' + "x/X " + '<text style="color:' + picword[4][0] + '">' + "c/C " + '<text style="color:' + picword[1][0] + '">' + "b/B " + '<text style="color:' + picword[3][0] + '">' + "n/N " + '<text style="color:' + picword[5][0] + '">' + "m/M " +'<text style="color:black"><br /><br />'
+				+ 'Your task is still to categorize the color the color-word is printed in, while ignoring the meaning of the color-word. Note that throughout the experiment, you <b>will</b> now be shown object images as part of your performance feedback. <br /> <br />'
+				+ 'Press the button when you are ready to continue.');			
+			}
+			else if (runCounter == 1 || runCounter == 3 || runCounter == 2){ // remind subs of the mappings + let them know that the trial-unique images will be shown
+				$("#indicator").html('<text style="font-size: 30px">Your accuracy on this block was ' + accsum + ' percent. You may take a break, but please take no longer than 4 minutes. <br /><br />'
+				+ 'As a reminder, here are the response mappings: <text style="color:' + picword[0][0] + '">' + "z/Z " + '<text style="color:' + picword[2][0] + '">' + "x/X " + '<text style="color:' + picword[4][0] + '">' + "c/C " + '<text style="color:' + picword[1][0] + '">' + "b/B " + '<text style="color:' + picword[3][0] + '">' + "n/N " + '<text style="color:' + picword[5][0] + '">' + "m/M " +'<text style="color:black"><br /><br />'
+				+ 'Press the button when you are ready to continue.');						
+			}
+			else if (runCounter == 4){ // setting up the filler task + asking they spend 4 min on it
+				$("#indicator").html('<text style="font-size: 30px">Your accuracy on this block was ' + accsum + ' percent. You will now fill out a questionnaire about the task you just completed. Press the button ONLY when you are ready to continue and can commit the next 4 minutes to the questionnaire.');
+			}
+			else if (runCounter == 6){ // after 1st memory block
+				$("#indicator").html('<text style="font-size: 30px">You are halfway through this portion of the study! <br /> <br />If you would like to take a break now, you can, but please take no more than 4 minutes.');
+			}
+			else if (runCounter == 7){ // and voila to submit their data (it will run runblock() again which will then just transition to the else statement on submitting the data)
+				$("#indicator").html('<text style="font-size: 30px">Thank you! Please press the button below to submit your data and complete the study.');
+				$("#Multitask").val(multitaskingdata.join(";"));
+				$("#Multitask", opener.window.document).val(multitaskingdata.join(";"));
+				$("#Mem").val(Mem_data.join(";"));
+				$("#Mem", opener.window.document).val(Mem_data.join(";"));
+			}
+			$("#indicator").show();
+            $("#endBlockButton").show();
+        }
+	}
+
+	function drawStroop(){
+		ctx.font="100px Arial";
+		StimTime = new Date().getTime() - runStart; // get the time when we draw the color-word stim
+		MatrixCounter++; // this is here because I need to start at 0 for my stim matrices
+		if (runCounter > 0)
+		{ImageCounter++;} // starts at -1, so once we start drawing fb images, then this will be 0 and any subsequent button presses or lack thereof will correctly indicate the image that was shown
+
+		if (StroopNum[MatrixCounter] == 1){ //1 PC-90 congruent
+			ctx.fillStyle=picword[0][0];
+			ctx.fillText(picword[0][1], canvas.width / 2, canvas.height / 2);
+			wordpresented = picword[0][1];
+			PressCorrect = 'z';
+			PressCorrect2 = 'Z';
+			colorpresent = picword[0][0];
+		}
+		else if (StroopNum[MatrixCounter] == 2){ //2 PC-90 congruent
+			ctx.fillStyle=picword[1][0];
+			ctx.fillText(picword[1][1], canvas.width / 2, canvas.height / 2);
+			wordpresented = picword[1][1];
+			PressCorrect = 'b';
+			PressCorrect2 = 'B';
+			colorpresent = picword[1][0];
+		}
+		else if (StroopNum[MatrixCounter] == 3){ //3 PC-10 congruent
+			ctx.fillStyle=picword[2][0];
+			ctx.fillText(picword[2][1], canvas.width / 2, canvas.height / 2);
+			wordpresented = picword[2][1];
+			PressCorrect = 'x';
+			PressCorrect2 = 'X';
+			colorpresent = picword[2][0];
+		}
+		else if (StroopNum[MatrixCounter] == 4){ //4 PC-10 congruent
+			ctx.fillStyle=picword[3][0];
+			ctx.fillText(picword[3][1], canvas.width / 2, canvas.height / 2);
+			wordpresented = picword[3][1];
+			PressCorrect = 'n';
+			PressCorrect2 = 'N';
+			colorpresent = picword[3][0];
+		}
+		else if (StroopNum[MatrixCounter] == 5){ //5 PC-50 congruent
+			ctx.fillStyle=picword[4][0];
+			ctx.fillText(picword[4][1], canvas.width / 2, canvas.height / 2);
+			wordpresented = picword[4][1];
+			PressCorrect = 'c';
+			PressCorrect2 = 'C';
+			colorpresent = picword[4][0];
+		}
+		else if (StroopNum[MatrixCounter] == 6){ //6 PC-50 congruent
+			ctx.fillStyle=picword[5][0];
+			ctx.fillText(picword[5][1], canvas.width / 2, canvas.height / 2);
+			wordpresented = picword[5][1];
+			PressCorrect = 'm';
+			PressCorrect2 = 'M';
+			colorpresent = picword[5][0];
+		}
+		else if (StroopNum[MatrixCounter] == 7){ //7 PC-90 incongruent #1 matched with PC-90 #2 word
+			ctx.fillStyle=picword[0][0]
+			ctx.fillText(picword[1][1], canvas.width / 2, canvas.height / 2);
+			PressCorrect = 'z';
+			PressCorrect2 = 'Z';
+			colorpresent = picword[0][0];
+			wordpresented = picword[1][1];
+		}
+		else if (StroopNum[MatrixCounter] == 8){ //8 PC-90 incongruent #2 matched with PC-90 #1 word
+			ctx.fillStyle=picword[1][0];
+			ctx.fillText(picword[0][1], canvas.width / 2, canvas.height / 2);
+			PressCorrect = 'b';
+			PressCorrect2 = 'B';
+			colorpresent = picword[1][0];
+			wordpresented = picword[0][1];
+		}
+		else if (StroopNum[MatrixCounter] == 9){ //9 PC-10 incongruent #1 matched with PC-10 #2 word
+			ctx.fillStyle=picword[2][0];
+			ctx.fillText(picword[3][1], canvas.width / 2, canvas.height / 2);
+			PressCorrect = 'x';
+			PressCorrect2 = 'X';
+			colorpresent = picword[2][0];
+			wordpresented = picword[3][1];
+		}
+		else if (StroopNum[MatrixCounter] == 10){ //10 PC-10 incongruent #2 matched with PC-10 #1 word
+			ctx.fillStyle=picword[3][0];
+			ctx.fillText(picword[2][1], canvas.width / 2, canvas.height / 2);
+			PressCorrect = 'n';
+			PressCorrect2 = 'N';
+			colorpresent = picword[3][0];
+			wordpresented = picword[2][1];
+		}
+		else if (StroopNum[MatrixCounter] == 11){ //11 PC-50 incongruent #1 matched with PC-50 #2 word
+			ctx.fillStyle=picword[4][0];
+			ctx.fillText(picword[5][1], canvas.width / 2, canvas.height / 2);
+			PressCorrect = 'c';
+			PressCorrect2 = 'C';
+			colorpresent = picword[4][0];
+			wordpresented = picword[5][1];
+		}
+		else if (StroopNum[MatrixCounter] == 12){ //12 PC-50 incongruent #2 matched with PC-50 #1 word
+			ctx.fillStyle=picword[5][0];
+			ctx.fillText(picword[4][1], canvas.width / 2, canvas.height / 2);
+			PressCorrect = 'm';
+			PressCorrect2 = 'M';
+			colorpresent = picword[5][0];
+			wordpresented = picword[4][1];
+		}
+		
+		//defining my analysis variables - I could also define PressCorrect down here, but it takes the same # of lines for if StroopNum = 1 or 7, then PressCorrect = z; PressCorrect2 = Z
+		if (StroopNum[MatrixCounter] == 1 || StroopNum[MatrixCounter] == 2 || StroopNum[MatrixCounter] == 3 || StroopNum[MatrixCounter] == 4 || StroopNum[MatrixCounter] == 5 || StroopNum[MatrixCounter] == 6)
+		{Congruent = 1;}
+		else
+		{Congruent = 0;}
+		
+		if (StroopNum[MatrixCounter] == 5 || StroopNum[MatrixCounter] == 6 || StroopNum[MatrixCounter] == 11 || StroopNum[MatrixCounter] == 12) // PC-50
+		{ItemType = 3;}
+		else if (StroopNum[MatrixCounter] == 9 || StroopNum[MatrixCounter] == 10 || StroopNum[MatrixCounter] == 3 || StroopNum[MatrixCounter] == 4) // PC-10
+		{ItemType = 2;}
+		else if (StroopNum[MatrixCounter] == 1 || StroopNum[MatrixCounter] == 2 || StroopNum[MatrixCounter] == 7 || StroopNum[MatrixCounter] == 8) // PC-90
+		{ItemType = 1;}
+
+		window.hasResponse = 0; // only after stim presentation will responses be recorded//allowed
+		setTimeout(showFeedback, respDeadline);
+	}
+	
+	function showFeedback(){
+		ctx.clearRect(0,0, canvas.width, canvas.height);
+		ctx.fillStyle="black";
+		ctx.font="75px Arial";
+		FBonset = new Date().getTime() - runStart; // I can estimate how much the stimulus presentation is off by looking at the difference in FBonset and the StimTime if I'd like
+		
+		if (runCounter > 0) //trial-unique feedback when it's not practice trials
+		{ctx.drawImage(fbarray[ImageCounter], ((canvas.width/2) - 250), 300, 500, 300);}
+		
+		if (feedbackType == 1){ // these fb types are coded below, where the keypress is; and when no button is pressed, that's why every ITI I redefine fbtype as 3, so that it will then go to 'respond faster'
+			if (runCounter > 0)
+			{ctx.fillText("Correct", (canvas.width / 2), 220, canvas.width);} // adjusting where the text shows if we're also presenting the fb images
+			else
+			{ctx.fillText("Correct", (canvas.width / 2), (canvas.height / 2), canvas.width);} // otherwise fb in the middle of the screen
+		}
+		else{ // so if their fb type says they're not correct...
+            if (feedbackType == 2){ // fb type 2 was still under "if window.hasResponse = 0" aka if they responded; so it established incorrect response
+				if (runCounter > 0)
+				{ctx.fillText("Incorrect", (canvas.width / 2), 220, canvas.width);}
+				else
+				{ctx.fillText("Incorrect", (canvas.width / 2), (canvas.height / 2), canvas.width);}
+			}
+            else if (feedbackType == 3 || window.hasResponse == 0){ // and if they're not incorrect, they haven't responded
+				accuracy = 0;
+				window.hasResponse = -1;
+				if (runCounter > 0)
+				{ctx.fillText("Respond faster",(canvas.width / 2), 220, canvas.width);}
+				else
+				{ctx.fillText("Respond faster",(canvas.width / 2), (canvas.height / 2), canvas.width);}
+				//since they haven't responded, we have to record the data here (because responses are otherwise logged when a button is pressed)
+				if (runCounter == 0)
+				{data[logCounter++] = ["SCRespITI:", versionNumber, logCounter, trialCounter, MatrixCounter, ImageCounter, runCounter, Congruent, MIC, ItemType, colorpresent, wordpresented, StroopNum[MatrixCounter], 'noimage', PressCorrect, keyPressed, accuracy, respTime, feedbackType, runStart, FBonset, StimTime, Responset, ACCCount];}
+				else
+				{data[logCounter++] = ["SCRespITI:", versionNumber, logCounter, trialCounter, MatrixCounter, ImageCounter, runCounter, Congruent, MIC, ItemType, colorpresent, wordpresented, StroopNum[MatrixCounter], fbarray[ImageCounter].alt, PressCorrect, keyPressed, accuracy, respTime, feedbackType, runStart, FBonset, StimTime, Responset, ACCCount];}                
+			}
+        }
+
+		if (runCounter == 0) // in practice, only 500 ms for the feedback, since these are all congruent trials
+		{setTimeout(showITI, 500);}	// after fb, go to the ITI
+		else // on actual task, 1000 ms for the feedback
+		{setTimeout(showITI, 1000);}	// after fb, go to the ITI
+	}
+	
+	function drawMemory(){ // for the memory task
+		MatrixCounter++; // this is equivalent to adding to matrix counter at the top of drawStroop & I had reset the MatrixCounter when loading up for the memory task
+		MemTime = new Date().getTime() - runStart; // get the time when the stimulus presented on screen
+		
+		if (Memorymatrix[MatrixCounter] == 1){
+			Mem = 1;
+			NewImageCounter++;
+			ctx.drawImage(fbarray[NewImageCounter], ((canvas.width/2) - 250), ((canvas.height/2) - 150), 500, 300);
+		}
+		else{
+			Mem = 2;
+			ImageCounter++; // starts at -1 so I have to add to it before presenting the image
+			ctx.drawImage(fbarray[ImageCounter], ((canvas.width/2) - 250), ((canvas.height/2) - 150), 500, 300);
+		}
+		$("#info").html('<text style="font-size: 30px"><text style="color:red">a/A<text style="color:black"> = Old (previously seen);<br /><text style="color:red">l/L<text style="color:black"> = New (never seen)');
+		$("#info").show(); // show them the response mappings
+		window.hasResponseMem = 0;
+		setTimeout(checkResponse, memrespDeadline); // check to make sure they responded before going onto the conf trials
+	}
+	
+	function checkResponse(){
+		if (window.hasResponseMem == 0 || feedbackType == 3){ //check if a response has been made
+			// if it hasn't been made, it will get logged as ITIResp
+			window.hasResponseMem = -1; // set the response to not check for responses again
+			//if they don't respond in time, then also defining these as 0 
+			Hit = 0;
+			FA = 0;
+			Miss = 0;
+			CR = 0;
+			
+			if (Mem == 1) // log the data w/ the appropriate image presented (since there are 2 separate image counters)
+			{Mem_data[logCounter++] = ["MemRespITI:", versionNumber, logCounter, trialCounter, MatrixCounter, runCounter, fbarray[NewImageCounter].alt, Memorymatrix[MatrixCounter], keyPressed, MemRT, Hit, FA, CR, Miss];}
+			else if (Mem == 2)
+			{Mem_data[logCounter++] = ["MemRespITI:", versionNumber, logCounter, trialCounter, MatrixCounter, runCounter, fbarray[ImageCounter].alt, Memorymatrix[MatrixCounter], keyPressed, MemRT, Hit, FA, CR, Miss];}
+			
+			setTimeout(TimeFeedback) // then give them the fb time out
+		}
+		else // if they have already responded, move onto the conf rating trials
+		{setTimeout(showITI)}
+	}
+	
+	function TimeFeedback(){ // feedback time out function
+		feedbackType = 3;
+        ctx.clearRect(0,0, canvas.width, canvas.height);
+        ctx.fillStyle="black";
+        ctx.font="75px Arial";
+        ctx.fillText("Respond faster",(canvas.width / 2), (canvas.height / 2), canvas.width);
+		setTimeout(showITI, 500);
+	}
+	
+	$("body").keypress(function(event){ // in order to have fixed length trials, NO FUNCTIONS can be run inside the keypress function; also, clearTimeout CANNOT be used as that will erase the timeline linking the fxns
+		keyPressed = String.fromCharCode(event.which); // identifies which key was pressed
+		if (window.hasResponse == 0){ // this makes sure we're only looking at when keys were *allowed* to be pressed
+            if (keyPressed == "z" || keyPressed == "x" || keyPressed == "n" || keyPressed == "m" || keyPressed == "c" || keyPressed == "b" || keyPressed == "Z" || keyPressed == "X" || keyPressed == "N" || keyPressed == "M" || keyPressed == "C" || keyPressed == "B" ){ // and specifically only the instructed keys
+                window.hasResponse = -1; // this makes certain that keypresses aren't logged after they press one of the instructed keys
+				Responset = new Date().getTime() - runStart;
+				respTime = Responset - StimTime;
+
+                if (keyPressed == PressCorrect || keyPressed == PressCorrect2){ // compares keypress to the correct press for a trial
+					if (respTime < respDeadline){ // if you respond within the deadline, you're accurate + correct fb
+						accuracy = 1;
+						feedbackType = 1;
+						ACCCount++;
+						if (runCounter == 0) // because imagecounter = -1 until run 2, it doesn't know what to do for recording that data
+						{data[logCounter++] = ["SCResp:", versionNumber, logCounter, trialCounter, MatrixCounter, ImageCounter, runCounter, Congruent, MIC, ItemType, colorpresent, wordpresented, StroopNum[MatrixCounter], 'noimage', PressCorrect, keyPressed, accuracy, respTime, feedbackType, runStart, FBonset, StimTime, Responset, ACCCount];}
+						else
+						{data[logCounter++] = ["SCResp:", versionNumber, logCounter, trialCounter, MatrixCounter, ImageCounter, runCounter, Congruent, MIC, ItemType, colorpresent, wordpresented, StroopNum[MatrixCounter], fbarray[ImageCounter].alt, PressCorrect, keyPressed, accuracy, respTime, feedbackType, runStart, FBonset, StimTime, Responset, ACCCount];}					
+					}
+					else{ // not responding in time = inaccurate + fb time-out
+						feedbackType = 3;
+						accuracy = 0;
+					}
+				}
+                else{ // if they didn't press the right key, they might not have responded OR responded incorrectly
+					if (respTime < respDeadline){
+						accuracy = 0;
+						feedbackType = 2;
+						if (runCounter == 0) // because imagecounter = -1 until run 2, it doesn't know what to do for recording that data
+						{data[logCounter++] = ["SCResp:", versionNumber, logCounter, trialCounter, MatrixCounter, ImageCounter, runCounter, Congruent, MIC, ItemType, colorpresent, wordpresented, StroopNum[MatrixCounter], 'noimage', PressCorrect, keyPressed, accuracy, respTime, feedbackType, runStart, FBonset, StimTime, Responset, ACCCount];}
+						else
+						{data[logCounter++] = ["SCResp:", versionNumber, logCounter, trialCounter, MatrixCounter, ImageCounter, runCounter, Congruent, MIC, ItemType, colorpresent, wordpresented, StroopNum[MatrixCounter], fbarray[ImageCounter].alt, PressCorrect, keyPressed, accuracy, respTime, feedbackType, runStart, FBonset, StimTime, Responset, ACCCount];}						
+					}
+					else{
+						feedbackType = 3;
+						accuracy = 0;
+					}
+				}
+            }
+		}
+		if (window.hasResponseMem == 0){ // memory trials
+			if (keyPressed == "a" || keyPressed == "A" || keyPressed == "l" || keyPressed == "L"){
+				window.hasResponseMem = -1;
+				Responset = new Date().getTime() - runStart;
+				MemRT = Responset - MemTime;
+				feedbackType = 1; // redefining the fb type so it won't give a fb time-out
+				
+				if (Mem == 1){ // aka it's new
+					if (keyPressed == "a" || keyPressed == "A"){ // a/a will mean Old, so this is Old despite New stim
+						FA = 1;
+						Hit = 0;
+						Miss = 0;
+						CR = 0;
+					}
+					else if (keyPressed == "l" || keyPressed == "L"){ // aka New for a New stim
+						Hit = 0;
+						FA = 0;
+						CR = 1;
+						Miss = 0;
+					}
+				}
+				else if (Mem == 2){ // aka it's old
+					if (keyPressed == "a" || keyPressed == "A"){ // old for an old stim
+						FA = 0;
+						Hit = 1;
+						Miss = 0;
+						CR = 0;
+					}
+					else if (keyPressed == "l" || keyPressed == "L"){ //new for an old stim
+						Hit = 0;
+						FA = 0;
+						CR = 0;
+						Miss = 1;
+					}
+				}
+				
+				if (Mem == 1) // if New image, make sure to change the counter for the image array to indicate which one was used
+				{Mem_data[logCounter++] = ["MemResp:", versionNumber, logCounter, trialCounter, MatrixCounter, runCounter, fbarray[NewImageCounter].alt, Memorymatrix[MatrixCounter], keyPressed, MemRT, Hit, FA, CR, Miss];}
+				else if (Mem == 2)
+				{Mem_data[logCounter++] = ["MemResp:", versionNumber, logCounter, trialCounter, MatrixCounter, runCounter, fbarray[ImageCounter].alt, Memorymatrix[MatrixCounter], keyPressed, MemRT, Hit, FA, CR, Miss];}
+			}
+		}
+    });
+});
+
+</script>
+</head>
+<body>
+<!--the HTML for the instructions-->
+<h2 id="InstructionsHeader" style="font-family:arial;font-size:30px">Instructions:</h2>
+<p id="ReadInstructions" style="font-family:arial;font-weight:bold; font-size:24px">Please read these instructions carefully before you begin the experiment.</p>
+<p id="Instructions" style="font-family:arial;color:black;font-size:22px;text-align: left"></p>
+<p id="Instructions1" style="font-family:arial;color:black;font-size:22px;text-align: left"></p>
+<p id="Instructions2" style="font-family:arial;color:black;font-size:22px;text-align: left"></p>
+<p id="Instructions3" style="font-family:arial;color:black;font-size:22px;text-align: left"></p>
+<p id="Instructions4" style="font-family:arial;color:black;font-size:22px;text-align: left"></p>
+<p id="Instructions5" style="font-family:arial;color:black;font-size:22px;text-align: left"></p>
+<p id="Instructions6" style="font-family:arial;color:black;font-size:22px;text-align: left"></p>
+<button id="NextButton" style="font-family:arial;color:black;font-size:20px;text-align: left; float: left;position: relative">Next</button>
+<button id="SCStartInstruct" style="font-family:arial;color:black;font-size:20px;text-align: left; float: left;position: relative">Next</button>
+<button id="startSCtask" style="font-family:arial;color:black;font-size:20px;text-align: left; float: left;position: relative">Click to exit instructions and start task.</button>
+<button id ="startMem" style="font-family: Arial; color: black; font-size:20px;text-align: left; float: left;position: relative">Click to exit instructions and start task.</button>
+
+<div id="main-display" class="full-display flex items-center justify-center fs-normal helvetica bg-white black" style="display: none"></div>
+<!--the HTML for the demographics questionnaire-->
+<div id="demographics" style="font-family: Arial; color: black; font-size: 20px; text-align: center; align: center; display: none">
+	<p> <b> Please answer the demographic questions below:</b></p><br /> <br />
+	<p> <b> Gender: </b> </p> <br /> 
+	<select id="gender">
+		<option value="">Select Gender</option>
+		<option value="F">Female</option>
+		<option value="M">Male</option>
+		<option value="T">Trans*</option>
+		<option value="NA">Do not wish to reply</option>
+	</select>
+	
+	<br /> <p><b> Age: </b></p> <br />
+	<input id="age" name="Age" value="" placeholder="Enter Age"></input>
+	
+	<br /> <p><b> Ethnicity:</b></p> <br />
+	<select id="ethnicity">
+		<option value="">Select Ethnicity</option>
+		<option value="HL">Hispanic/Latino</option>
+		<option value="NHL">Non-Hispanic/Latino</option>
+		<option value="NA">Do not wish to reply</option>
+	</select>
+	
+	<br /> <p><b>Race: </b></p> <br />
+	<select id="race">
+		<option value="">Select Race</option>
+		<option value="AI">American Indian/Alaska Native</option>
+		<option value="A">Asian</option>
+		<option value="NH">Native Hawaiian/Other Pacific Islander</option>
+		<option value="AA">African American/Black</option>
+		<option value="W">Caucasian/White</option>
+		<option value="M">Multiracial</option>
+		<option value="O">Other</option>
+		<option value="NA">Do not wish to reply</option>
+	</select>
+	<br>
+	<br /> <br /> <button id="demoSubmit" a id="dyn-bttn" class="bttn b-right f6 link dim ph3 pv2 mb2 dib white bg-green" style="width: 200px; text-align: center">Submit Demographics</button>
+</div>
+<!--the HTML for the post-test questions-->
+<div id="post-test" style="font-family: Arial; color: black; font-size: 20px; text-align: center; align: center; display: none">
+<div class="content-display flex flex-column justify-center lh-copy" style="text-align: left">
+	<p id = "postintro"> <b> We would now like to ask you a few questions about the task that you completed.</b></p><br /> <br />
+	<p id = "BlockVary"> Did you notice any systematic variation in how often particular <b>blocks/runs</b> were associated with an <b>easy</b> (congruent) trial (i.e., the color of the color-word matched the meaning of the color-word) or <b>hard</b> (incongruent) trial (i.e., the color of the color-word DID NOT match its meaning)? </p> <br /> 
+	<br /> <select id="BlockVaryQ">
+		<option value="">Select Answer</option>
+		<option value="1">Yes</option>
+		<option value="0">No</option>
+	</select> <br /> 
+	
+	<br /> <p id = "ItemVary"> Did you notice any systematic variation in how often particular <b>color-words</b> were associated with an <b>easy</b> (congruent) trial (i.e., the color of the color-word matched the meaning of the color-word) or <b>hard</b> (incongruent) trial (i.e., the color of the color-word DID NOT match its meaning)? </p> <br /> 
+	<br /> <select id="ItemVaryQ">
+		<option value="">Select Answer</option>
+		<option value="1">Yes</option>
+		<option value="0">No</option>
+	</select>
+	
+	<br /> <br /> <button id="Next_sys" a id="dyn-bttn" class="bttn b-right f6 link dim ph3 pv2 mb2 dib white bg-green" style="width: 200px; text-align: center; ">Next</button> 
+</div>
+</div>
+<div id="freq" style="font-family: Arial; color: black; font-size: 20px; text-align: center; align: center; display: none">
+<div class="content-display flex flex-column justify-center lh-copy" style="text-align: left">
+	<p id = "FrequencyPredict"> The frequency of <b>easy</b> (congruent) and <b>hard</b> (incongruent) trials may have been determined by each individual color-word or a combination of color-words. For instance, this frequency might have been manipulated so that red and orange, red and yellow, red and green, red and blue, red and purple were both more likely to involve either easy or hard trials. Please rate the likelihood of each pairing predicting a particular trial type. </p>
+	
+	<p id = "Word1"><b>Red + Orange</b></p> <br />
+	<table><tr><td style="text-align: left">Never</td>
+	<td>Balanced</td>
+	<td style="text-align: right">Always</td></tr>
+	<tr><td style="text-align: left">0</td>
+	<td>50</td>
+	<td style="text-align: right">100</td>
+	</tr></table>
+	<div class="slidecontainer">
+		<input type="range" min="0" max="100" class="slider" id="FrequencyPredict_1">
+		<p style="font-family: Arial; color: black; font-size: 20px; text-align: center; align: center;">Value: <span id="demo1" class="tester"></span></p>
+	</div><br />
+	
+	<p id = "Word2"><b>Red + Yellow</b></p> <br />
+	<table><tr><td style="text-align: left">Never</td>
+	<td>Balanced</td>
+	<td style="text-align: right">Always</td></tr>
+	<tr><td style="text-align: left">0</td>
+	<td>50</td>
+	<td style="text-align: right">100</td>
+	</tr></table>
+	<div class="slidecontainer">
+		<input type="range" min="0" max="100" class="slider" id="FrequencyPredict_2">
+		<p style="font-family: Arial; color: black; font-size: 20px; text-align: center; align: center;">Value: <span id="demo2" class="tester"></span></p>
+	</div><br />
+	
+	<p id = "Word3"><b>Red + Green</b></p> <br />
+	<table><tr><td style="text-align: left">Never</td>
+	<td>Balanced</td>
+	<td style="text-align: right">Always</td></tr>
+	<tr><td style="text-align: left">0</td>
+	<td>50</td>
+	<td style="text-align: right">100</td>
+	</tr></table>
+	<div class="slidecontainer">
+		<input type="range" min="0" max="100" class="slider" id="FrequencyPredict_3">
+		<p style="font-family: Arial; color: black; font-size: 20px; text-align: center; align: center;">Value: <span id="demo3" class="tester"></span></p>
+	</div><br />
+	
+	<p id = "Word4"><b>Red + Blue</b></p> <br />
+	<table><tr><td style="text-align: left">Never</td>
+	<td>Balanced</td>
+	<td style="text-align: right">Always</td></tr>
+	<tr><td style="text-align: left">0</td>
+	<td>50</td>
+	<td style="text-align: right">100</td>
+	</tr></table>
+	<div class="slidecontainer">
+		<input type="range" min="0" max="100" class="slider" id="FrequencyPredict_4">
+		<p style="font-family: Arial; color: black; font-size: 20px; text-align: center; align: center;">Value: <span id="demo4" class="tester"></span></p>
+	</div><br />
+	
+	<p id = "Word5"><b>Red + Purple</b></p> <br />
+	<table><tr><td style="text-align: left">Never</td>
+	<td>Balanced</td>
+	<td style="text-align: right">Always</td></tr>
+	<tr><td style="text-align: left">0</td>
+	<td>50</td>
+	<td style="text-align: right">100</td>
+	</tr></table>
+	<div class="slidecontainer">
+		<input type="range" min="0" max="100" class="slider" id="FrequencyPredict_5">
+		<p style="font-family: Arial; color: black; font-size: 20px; text-align: center; align: center;">Value: <span id="demo5" class="tester"></span></p>
+	</div>
+	
+	<br /> <br /> <button id="Next_freq" a id="dyn-bttn" class="bttn b-right f6 link dim ph3 pv2 mb2 dib white bg-green" style="width: 200px; text-align: center; ">Next</button> 
+</div>		
+</div>
+<div id="SCForcedChoice" style="font-family: Arial; color: black; font-size: 20px; text-align: center; align: center; display: none">
+<div class="content-display flex flex-column justify-center lh-copy" style="text-align: left">
+	<p id = "SCFCintro"><b>Hard (incongruent) trials</b> (i.e., the color of the color-word DID NOT match the meaning of the color-word) may have occurred more frequently for <b>two of these color-words</b>, while <b>easy (congruent) trials</b> (i.e., the color of the color-word matched its meaning) may have occurred more frequently for <b>two other color-words. The final two other color-words</b> may have been neutral (i.e., equal likelihood of being hard or easy). In other words, there are two color-words for each trial type. Please match each color-word to its most likely trial type.</p><br /> <br />
+	<p id = "SCFC_red" style="color:red"> Red </p> <br /> 
+	<select id="SCForcedChoice_red">
+		<option value="">Select Answer</option>
+		<option value="Hard">Hard/Incongruent</option>
+		<option value="Easy">Easy/Congruent</option>
+		<option value="Neutral">Neutral/Nonpredictive</option>
+	</select> <br /> 
+	
+	<br /> <p id = "SCFC_orange" style="color:orange"> Orange </p> <br />  
+	<select id="SCForcedChoice_orange">
+		<option value="">Select Answer</option>
+		<option value="Hard">Hard/Incongruent</option>
+		<option value="Easy">Easy/Congruent</option>
+		<option value="Neutral">Neutral/Nonpredictive</option>
+	</select>
+	
+	<br /> <p id = "SCFC_yellow" style="color:#EBEB00"> Yellow </p> <br />  
+	<select id="SCForcedChoice_yellow">
+		<option value="">Select Answer</option>
+		<option value="Hard">Hard/Incongruent</option>
+		<option value="Easy">Easy/Congruent</option>
+		<option value="Neutral">Neutral/Nonpredictive</option>
+	</select>
+	
+	<br /> <p id = "SCFC_green" style="color:green"> Green </p> <br />  
+	<select id="SCForcedChoice_green">
+		<option value="">Select Answer</option>
+		<option value="Hard">Hard/Incongruent</option>
+		<option value="Easy">Easy/Congruent</option>
+		<option value="Neutral">Neutral/Nonpredictive</option>
+	</select>
+	
+	<br /> <p id = "SCFC_blue" style="color:blue"> Blue </p> <br />  
+	<select id="SCForcedChoice_blue">
+		<option value="">Select Answer</option>
+		<option value="Hard">Hard/Incongruent</option>
+		<option value="Easy">Easy/Congruent</option>
+		<option value="Neutral">Neutral/Nonpredictive</option>
+	</select>
+	
+	<br /> <p id = "SCFC_purple" style="color:purple"> Purple </p> <br />  
+	<select id="SCForcedChoice_purple">
+		<option value="">Select Answer</option>
+		<option value="Hard">Hard/Incongruent</option>
+		<option value="Easy">Easy/Congruent</option>
+		<option value="Neutral">Neutral/Nonpredictive</option>
+	</select>
+	
+	<br /> <br /> <button id="Next_scfc" a id="dyn-bttn" class="bttn b-right f6 link dim ph3 pv2 mb2 dib white bg-green" style="width: 200px; text-align: center; ">Next</button> 
+</div>
+</div>
+	<table>
+		<tr>
+			<td>
+				<p id="indicator" style="font-family: Arial; color: black; font-size: 50px; text-align:center; align: center; float: center"></p>
+				<p id="info" style="font-family: Arial; color: black; font-size: 24px; text-align: center; align: center">Once you're ready to start, press the button below.<br/> <br/>
+				As a reminder, the color response mappings are shown below, arranged in order of the keyboard (z, x, c, b, n, m).</p>
+                <p><button id="endBlockButton" style="font-family: Arial; color: black; text-align:center; align: center; float: center">Click this button when you're ready to continue.</button></p>
+				<p><button id="resize" style="font-family: Arial; color: black; text-align:center; align: center; float: center">Try resizing again.</button></p>
+				<p> <button id ="startButton" style="font-family: Arial; color: black; text-align:center; align: center; float: center">Start the Task.</button></p>
+				<input id="events_input" name="events_input" type="hidden">
+				<input class="numeric_input" id="defocus_count_input" name="defocus_count_input" type="hidden">
+				<input class="numeric_input" id="refocus_count_input" name="refocus_count_input" type="hidden">
+				<input class="numeric_input" id="last_duration_input" name="last_duration_input" type="hidden">
+				<input class="numeric_input" id="duration_sum_input" name="duration_sum_input" type="hidden">
+
+				<form id="mturk_form" method="POST" action="INSERT PHP SCRIPT HERE">
+					<input type="hidden" id="assignmentId" name="assignmentId" value="">
+					<input type="hidden" id="workerId" name="workerId" value="">
+					<input type="hidden" id="hitId" name="hitId" value="">
+					<input type="hidden" id="RTs", name="RTs", value="">
+					<input type="hidden" id="IPaddress" name="IPaddress" value="">
+					<input type="hidden" id="Multitask" name="Multitask" value="">
+					<input type="hidden" id="demos" name="demos" value="">
+					<input type="hidden" id="posttest" name="posttest" value="">
+					<input type="hidden" id="bisbas" name="bisbas" value="">
+					<input type="hidden" id="Mem" name="Mem" value="">
+					<input type="hidden" id="ExpName" name="ExpName" value="LWPCtufb_SONA">
+				</form>
+
+                <p id="screensize" style="font-family: arial; font-size: 40px; text-align:center; align: center; float: center">Please make sure that your screen is enlarged before clicking the button below.</p>
+				<p><button id="startPostTest" style="font-family: arial; color: black; font-size: 24px; text-align:center; align: center; float: center">Please click this button to fill out our post-test questionnaire.</button></p>
+				<canvas id="myCanvas" width="800" height="600" style="user-select: none; -webkit-user-select:none; -moz-user-select:none"></canvas>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>
